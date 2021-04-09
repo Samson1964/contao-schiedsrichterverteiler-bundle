@@ -32,9 +32,10 @@ $GLOBALS['TL_DCA']['tl_schiedsrichterverteiler'] = array
 		),
 		'label' => array
 		(
-			'fields'                  => array('titel'),
+			'fields'                  => array('titel', 'selektion', 'lizenzstatus', 'lizenz'),
 			'showColumns'             => true,
 			'format'                  => '%s',
+			'label_callback'          => array('tl_schiedsrichterverteiler','addIcon')
 		),
 		'global_operations' => array
 		(
@@ -66,6 +67,13 @@ $GLOBALS['TL_DCA']['tl_schiedsrichterverteiler'] = array
 				'href'                => 'act=delete',
 				'icon'                => 'delete.gif',
 				'attributes'          => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\'))return false;Backend.getScrollOffset()"'
+			),
+			'toggle' => array
+			(
+				'label'               => &$GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['toggle'],
+				'icon'                => 'visible.gif',
+				'attributes'          => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,%s)"',
+				'button_callback'     => array('tl_schiedsrichterverteiler', 'toggleIcon')
 			),
 			'show' => array
 			(
@@ -107,7 +115,12 @@ $GLOBALS['TL_DCA']['tl_schiedsrichterverteiler'] = array
 			'flag'                    => 1,
 			'filter'                  => true,
 			'search'                  => true,
-			'eval'                    => array('mandatory'=>false, 'maxlength'=>255, 'tl_class'=>'long'),
+			'eval'                    => array
+			(
+				'mandatory'           => true,
+				'maxlength'           => 255,
+				'tl_class'            => 'long'
+			),
 			'sql'                     => "varchar(255) NOT NULL default ''"
 		),
 		'selektion' => array
@@ -118,27 +131,38 @@ $GLOBALS['TL_DCA']['tl_schiedsrichterverteiler'] = array
 			'sorting'                 => true,
 			'flag'                    => 1,
 			'search'                  => true,
-			'eval'                    => array('mandatory'=>false, 'maxlength'=>255, 'tl_class'=>'w50'),
+			'eval'                    => array
+			(
+				'mandatory'           => false,
+				'maxlength'           => 255,
+				'tl_class'            => 'long'
+			),
 			'sql'                     => "varchar(255) NOT NULL default ''"
-		),
-		'lizenz' => array
-		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['lizenz'],
-			'inputType'               => 'text',
-			'exclude'                 => true,
-			'sorting'                 => true,
-			'flag'                    => 1,
-			'search'                  => false,
-			'eval'                    => array('mandatory'=>false, 'maxlength'=>64, 'tl_class'=>'w50 clr'),
-			'sql'                     => "varchar(64) NOT NULL default ''"
 		),
 		'lizenzstatus' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['lizenzstatus'],
+			'inputType'               => 'checkboxWizard',
 			'exclude'                 => true,
-			'inputType'               => 'select',
-			'options'                 => array('0' => 'null'),
-			'eval'                    => array('tl_class'=>'w50'),
+			'options'                 => $GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['lizenzstatus_optionen'],
+			'eval'                    => array
+			(
+				'multiple'            => true,
+				'tl_class'            => 'w50'
+			),
+			'sql'                     => "text NULL"
+		),
+		'lizenz' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['lizenz'],
+			'inputType'               => 'checkboxWizard',
+			'exclude'                 => true,
+			'options'                 => $GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['lizenz_optionen'],
+			'eval'                    => array
+			(
+				'multiple'            => true,
+				'tl_class'            => 'w50'
+			),
 			'sql'                     => "text NULL"
 		),
 		'published' => array
@@ -146,6 +170,7 @@ $GLOBALS['TL_DCA']['tl_schiedsrichterverteiler'] = array
 			'label'                   => &$GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['published'],
 			'exclude'                 => true,
 			'filter'                  => true,
+			'default'                 => 1,
 			'inputType'               => 'checkbox',
 			'sql'                     => "char(1) NOT NULL default ''"
 		),
@@ -157,5 +182,107 @@ $GLOBALS['TL_DCA']['tl_schiedsrichterverteiler'] = array
  */
 class tl_schiedsrichterverteiler extends Backend
 {
+
+	public function toggleIcon($row, $href, $label, $title, $icon, $attributes)
+	{
+		$this->import('BackendUser', 'User');
+
+		if (strlen($this->Input->get('tid')))
+		{
+			$this->toggleVisibility($this->Input->get('tid'), ($this->Input->get('state') == 0));
+			$this->redirect($this->getReferer());
+		}
+
+		// Check permissions AFTER checking the tid, so hacking attempts are logged
+		if (!$this->User->isAdmin && !$this->User->hasAccess('tl_schiedsrichterverteiler::published', 'alexf'))
+		{
+			return '';
+		}
+
+		$href .= '&amp;id='.$this->Input->get('id').'&amp;tid='.$row['id'].'&amp;state='.$row[''];
+
+		if (!$row['published'])
+		{
+			$icon = 'invisible.gif';
+		}
+
+		return '<a href="'.$this->addToUrl($href).'" title="'.specialchars($title).'"'.$attributes.'>'.$this->generateImage($icon, $label).'</a> ';
+	}
+
+	public function toggleVisibility($intId, $blnPublished)
+	{
+		// Check permissions to publish
+		if (!$this->User->isAdmin && !$this->User->hasAccess('tl_schiedsrichterverteiler::published', 'alexf'))
+		{
+			$this->log('Kein Zugriffsrecht für Aktivierung Datensatz ID "'.$intId.'"', 'tl_schiedsrichterverteiler toggleVisibility', TL_ERROR);
+			// Zurücklink generieren, ab C4 ist das ein symbolischer Link zu "contao"
+			if (version_compare(VERSION, '4.0', '>='))
+			{
+				$backlink = \System::getContainer()->get('router')->generate('contao_backend');
+			}
+			else
+			{
+				$backlink = 'contao/main.php';
+			}
+			$this->redirect($backlink.'?act=error');
+		}
+
+		$this->createInitialVersion('tl_schiedsrichterverteiler', $intId);
+
+		// Trigger the save_callback
+		if (is_array($GLOBALS['TL_DCA']['tl_schiedsrichterverteiler']['fields']['published']['save_callback']))
+		{
+			foreach ($GLOBALS['TL_DCA']['tl_schiedsrichterverteiler']['fields']['published']['save_callback'] as $callback)
+			{
+				$this->import($callback[0]);
+				$blnPublished = $this->$callback[0]->$callback[1]($blnPublished, $this);
+			}
+		}
+
+		// Update the database
+		$this->Database->prepare("UPDATE tl_schiedsrichterverteiler SET tstamp=". time() .", published='" . ($blnPublished ? '' : '1') . "' WHERE id=?")
+		               ->execute($intId);
+		$this->createNewVersion('tl_schiedsrichterverteiler', $intId);
+	}
+
+	/**
+	 * Add an image to each record
+	 * @param array
+	 * @param string
+	 * @param DataContainer
+	 * @param array
+	 * @return string
+	 */
+	public function addIcon($row, $label, $dc, $args)
+	{
+
+		$image = 'member';
+
+		//$objUsers = \Database::getInstance()
+		//                    ->prepare("SELECT
+	    //                                    tlm.id
+	    //                                FROM
+		//                                    tl_member tlm, tl_session tls
+	    //                                WHERE
+		//                                    tlm.id = tls.pid
+	    //                                AND tlm.id = ?
+	    //                                AND tls.tstamp > ?
+	    //                                AND tls.name = ?")
+	    //                    ->execute($row['id'], time()-300, 'FE_USER_AUTH');
+		if($test)
+		{
+			// Offline
+			$status = sprintf('<img src="bundles/contaoschiedsrichterverteiler/blank-icon.png" width="16" height="16" alt="" style="padding-left: 18px;">', TL_ASSETS_URL, \Backend::getTheme());
+		}
+		else
+		{
+			// Online
+			$status = sprintf('<img src="bundles/contaoschiedsrichterverteiler/ok-icon.png" width="16" height="16" alt="" style="padding-left: 18px;">', TL_ASSETS_URL, \Backend::getTheme());
+		}
+
+		//$args[0] = sprintf('<div class="list_icon_new" style="background-image:url(\'%ssystem/themes/%s/images/%s.gif\'); width: 34px;">%s</div>', TL_ASSETS_URL, \Backend::getTheme(), $image, $status);
+		$args[0] .= sprintf('<div class="list_icon_new">%s</div>', $status);
+		return $args;
+	}
 
 }
