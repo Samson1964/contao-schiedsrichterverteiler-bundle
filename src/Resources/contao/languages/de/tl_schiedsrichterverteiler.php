@@ -4,6 +4,8 @@
  * Buttons für Operationen
  */
 
+$GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['setDefault'] = array('Standardverteiler festlegen', 'Standardverteiler festlegen');
+
 $GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['new'] = array('Neuer Verteiler', 'Neuen Verteiler anlegen');
 $GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['edit'] = array('Verteiler bearbeiten', 'Verteiler %s bearbeiten');
 $GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['copy'] = array('Verteiler kopieren', 'Verteiler %s kopieren');
@@ -14,6 +16,8 @@ $GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['show'] = array('Verteilerdeta
 /**
  * Backend-Modul: Übersetzungen im Eingabeformular
  */
+
+$GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['standard'] = array('Standard', 'Standardverteiler');
 
 $GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['verteiler_legend'] = 'Verteiler';
 $GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['titel'] = array('Titel', 'Name des Verteilers');

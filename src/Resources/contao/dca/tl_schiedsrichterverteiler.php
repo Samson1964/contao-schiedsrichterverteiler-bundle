@@ -26,19 +26,26 @@ $GLOBALS['TL_DCA']['tl_schiedsrichterverteiler'] = array
 		'sorting' => array
 		(
 			'mode'                    => 2,
-			'fields'                  => array('titel'),
+			'fields'                  => array('standard', 'titel'),
 			'flag'                    => 1,
 			'panelLayout'             => 'filter;sort,search,limit',
 		),
 		'label' => array
 		(
-			'fields'                  => array('titel', 'selektion', 'lizenzstatus', 'lizenz'),
+			'fields'                  => array('standard', 'titel', 'selektion', 'lizenzstatus', 'lizenz'),
 			'showColumns'             => true,
 			'format'                  => '%s',
-			'label_callback'          => array('tl_schiedsrichterverteiler','addIcon')
+			'label_callback'          => array('tl_schiedsrichterverteiler','addDefaultIcon')
 		),
 		'global_operations' => array
 		(
+			'setDefault' => array
+			(
+				'label'               => &$GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['setDefault'],
+				'icon'                => 'bundles/contaoschiedsrichterverteiler/images/default.png',
+				'href'                => 'key=setDefault',
+				'attributes'          => 'onclick="Backend.getScrollOffset();"'
+			),
 			'all' => array
 			(
 				'label'               => &$GLOBALS['TL_LANG']['MSC']['all'],
@@ -105,6 +112,16 @@ $GLOBALS['TL_DCA']['tl_schiedsrichterverteiler'] = array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['tstamp'],
 			'sql'                     => "int(10) unsigned NOT NULL default '0'"
+		),
+		'standard' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['standard'],
+			'exclude'                 => true,
+			'filter'                  => true,
+			'sorting'                 => true,
+			'flag'                    => 1,
+			'inputType'               => 'checkbox',
+			'sql'                     => "char(1) NOT NULL default ''"
 		),
 		'titel' => array
 		(
@@ -253,35 +270,22 @@ class tl_schiedsrichterverteiler extends Backend
 	 * @param array
 	 * @return string
 	 */
-	public function addIcon($row, $label, $dc, $args)
+	public function addDefaultIcon($row, $label, $dc, $args)
 	{
 
-		$image = 'member';
-
-		//$objUsers = \Database::getInstance()
-		//                    ->prepare("SELECT
-	    //                                    tlm.id
-	    //                                FROM
-		//                                    tl_member tlm, tl_session tls
-	    //                                WHERE
-		//                                    tlm.id = tls.pid
-	    //                                AND tlm.id = ?
-	    //                                AND tls.tstamp > ?
-	    //                                AND tls.name = ?")
-	    //                    ->execute($row['id'], time()-300, 'FE_USER_AUTH');
-		if($test)
+		//print_r($args);
+		if($args[0] == 'ja')
 		{
-			// Offline
-			$status = sprintf('<img src="bundles/contaoschiedsrichterverteiler/blank-icon.png" width="16" height="16" alt="" style="padding-left: 18px;">', TL_ASSETS_URL, \Backend::getTheme());
+			// Standard
+			$status = sprintf('<img src="bundles/contaoschiedsrichterverteiler/images/ok-icon.png" width="16" height="16" alt="" style="padding-left: 18px;">', TL_ASSETS_URL, \Backend::getTheme());
 		}
 		else
 		{
-			// Online
-			$status = sprintf('<img src="bundles/contaoschiedsrichterverteiler/ok-icon.png" width="16" height="16" alt="" style="padding-left: 18px;">', TL_ASSETS_URL, \Backend::getTheme());
+			// Normal
+			$status = sprintf('<img src="bundles/contaoschiedsrichterverteiler/images/blank-icon.png" width="16" height="16" alt="" style="padding-left: 18px;">', TL_ASSETS_URL, \Backend::getTheme());
 		}
 
-		//$args[0] = sprintf('<div class="list_icon_new" style="background-image:url(\'%ssystem/themes/%s/images/%s.gif\'); width: 34px;">%s</div>', TL_ASSETS_URL, \Backend::getTheme(), $image, $status);
-		$args[0] .= sprintf('<div class="list_icon_new">%s</div>', $status);
+		$args[0] = sprintf('<div class="list_icon_new">%s</div>', $status);
 		return $args;
 	}
 
