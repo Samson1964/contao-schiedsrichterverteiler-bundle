@@ -105,7 +105,6 @@ $GLOBALS['TL_DCA']['tl_schiedsrichterverteiler'] = array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['id'],
 			'sorting'                 => true,
-			'search'                  => true,
 			'sql'                     => "int(10) unsigned NOT NULL auto_increment"
 		),
 		'tstamp' => array
@@ -119,7 +118,7 @@ $GLOBALS['TL_DCA']['tl_schiedsrichterverteiler'] = array
 			'exclude'                 => true,
 			'filter'                  => true,
 			'sorting'                 => true,
-			'flag'                    => 1,
+			'flag'                    => 12,
 			'inputType'               => 'checkbox',
 			'sql'                     => "char(1) NOT NULL default ''"
 		),
@@ -130,7 +129,6 @@ $GLOBALS['TL_DCA']['tl_schiedsrichterverteiler'] = array
 			'exclude'                 => true,
 			'sorting'                 => true,
 			'flag'                    => 1,
-			'filter'                  => true,
 			'search'                  => true,
 			'eval'                    => array
 			(
@@ -160,6 +158,7 @@ $GLOBALS['TL_DCA']['tl_schiedsrichterverteiler'] = array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['lizenzstatus'],
 			'inputType'               => 'checkboxWizard',
+			'search'                  => true,
 			'exclude'                 => true,
 			'options'                 => $GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['lizenzstatus_optionen'],
 			'eval'                    => array
@@ -173,6 +172,7 @@ $GLOBALS['TL_DCA']['tl_schiedsrichterverteiler'] = array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['lizenz'],
 			'inputType'               => 'checkboxWizard',
+			'search'                  => true,
 			'exclude'                 => true,
 			'options'                 => $GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['lizenz_optionen'],
 			'eval'                    => array

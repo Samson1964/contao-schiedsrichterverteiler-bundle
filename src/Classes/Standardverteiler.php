@@ -116,7 +116,7 @@ class Standardverteiler extends \Backend
 				// Abfrage ausführen
 				$objSchiedsrichter = $objImportDB->prepare('SELECT * FROM `sr-person` WHERE '.$sql)
 				                                 ->execute();
-				print_r('SELECT * FROM `sr-person` WHERE '.$sql);
+				//print_r('SELECT * FROM `sr-person` WHERE '.$sql);
 
 				// E-Mail-Adressen in Array eintragen
 				$adressenSchiedsrichter = array();
@@ -175,8 +175,8 @@ class Standardverteiler extends \Backend
 			}
 
 			// Cookie setzen und zurückkehren (key=setDefault aus URL entfernen)
-			//\System::setCookie('BE_PAGE_OFFSET', 0, 0);
-			//$this->redirect(str_replace('&key=setDefault', '', \Environment::get('request')));
+			\System::setCookie('BE_PAGE_OFFSET', 0, 0);
+			$this->redirect(str_replace('&key=setDefault', '', \Environment::get('request')));
 		}
 
 		// Verteiler laden

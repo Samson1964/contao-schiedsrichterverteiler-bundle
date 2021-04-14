@@ -1,5 +1,10 @@
 # Schiedsrichter-Verteiler Changelog
 
+## Version 1.0.0 (2021-04-14)
+
+* Add: Aktiven Verteiler im Schiedsrichter-Newsletter anzeigen, inkl. Bearbeitungslink (bei Abonennten-Ansicht nicht möglich)
+* Fix: Sortierungen, Filter in Datensatz-Auflistung
+
 ## Version 0.0.4 (2021-04-14)
 
 * Fix: Der Wert 0 wurde in der Datensatzauflistung nicht als 0 angezeigt -> vorerst aber Patch von Spooky in DC_Table eingefügt

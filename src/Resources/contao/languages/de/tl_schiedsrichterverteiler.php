@@ -17,6 +17,7 @@ $GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['show'] = array('Verteilerdeta
  * Backend-Modul: Übersetzungen im Eingabeformular
  */
 
+$GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['id'] = array('ID', 'ID des Datensatzes');
 $GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['standard'] = array('Standard', 'Standardverteiler');
 
 $GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['verteiler_legend'] = 'Verteiler';
