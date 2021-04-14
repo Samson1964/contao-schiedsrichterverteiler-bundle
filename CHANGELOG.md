@@ -1,5 +1,11 @@
 # Schiedsrichter-Verteiler Changelog
 
+## Version 0.0.4 (2021-04-14)
+
+* Fix: Der Wert 0 wurde in der Datensatzauflistung nicht als 0 angezeigt -> vorerst aber Patch von Spooky in DC_Table eingefügt
+* Add: Abhängigkeit contao/newsletter-bundle
+* Add: Plugin.php ->setLoadAfter([\Contao\NewsletterBundle\ContaoNewsletterBundle::class]),
+
 ## Version 0.0.3 (2021-04-13)
 
 * Add: Funktionalität für Festlegung Standardverteiler

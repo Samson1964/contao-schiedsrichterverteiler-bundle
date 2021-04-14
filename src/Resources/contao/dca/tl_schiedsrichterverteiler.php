@@ -273,8 +273,11 @@ class tl_schiedsrichterverteiler extends Backend
 	public function addDefaultIcon($row, $label, $dc, $args)
 	{
 
+		//echo "<pre>";
+		//print_r($row);
 		//print_r($args);
-		if($args[0] == 'ja')
+		//echo "</pre>";
+		if($row['standard'])
 		{
 			// Standard
 			$status = sprintf('<img src="bundles/contaoschiedsrichterverteiler/images/ok-icon.png" width="16" height="16" alt="" style="padding-left: 18px;">', TL_ASSETS_URL, \Backend::getTheme());
@@ -286,6 +289,9 @@ class tl_schiedsrichterverteiler extends Backend
 		}
 
 		$args[0] = sprintf('<div class="list_icon_new">%s</div>', $status);
+		
+		// Selektion ändern (3. Spalte)
+		//if($args[2] == '0') $args[2] = '&#48;';
 		return $args;
 	}
 

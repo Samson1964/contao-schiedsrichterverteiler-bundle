@@ -17,7 +17,7 @@ class Plugin implements BundlePluginInterface
 	{
 		return [
 			BundleConfig::create(ContaoSchiedsrichterverteilerBundle::class)
-				->setLoadAfter([ContaoCoreBundle::class]),
+				->setLoadAfter([ContaoCoreBundle::class, \Contao\NewsletterBundle\ContaoNewsletterBundle::class]),
 		];
 	}
 }
