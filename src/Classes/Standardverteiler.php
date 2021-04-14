@@ -127,7 +127,7 @@ class Standardverteiler extends \Backend
 						if($objSchiedsrichter->E_Mail1)
 						{
 							// Adresse eintragen
-							$adressenSchiedsrichter[] = $objSchiedsrichter->E_Mail1;
+							$adressenSchiedsrichter[] = strtolower($objSchiedsrichter->E_Mail1);
 						}
 						else
 						{
@@ -150,7 +150,7 @@ class Standardverteiler extends \Backend
 				{
 					while($objNewsletter->next())
 					{
-						$adressenNewsletter[] = $objNewsletter->email;
+						$adressenNewsletter[] = strtolower($objNewsletter->email);
 					}
 				}
 				

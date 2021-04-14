@@ -1,5 +1,9 @@
 # Schiedsrichter-Verteiler Changelog
 
+## Version 1.0.1 (2021-04-14)
+
+* Fix: Import der Newsletter-Empfänger führte zu Duplicate entry (Problem Groß- und Kleinschreibung)
+
 ## Version 1.0.0 (2021-04-14)
 
 * Add: Aktiven Verteiler im Schiedsrichter-Newsletter anzeigen, inkl. Bearbeitungslink (bei Abonennten-Ansicht nicht möglich)
