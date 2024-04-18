@@ -1,5 +1,11 @@
 # Schiedsrichter-Verteiler Changelog
 
+## Version 1.1.0 (2024-04-18)
+
+* Add: codefog/contao-haste
+* Change: Haste-Toggler statt des normalen Togglers
+* Add: Kompatibilität PHP 8
+
 ## Version 1.0.1 (2021-04-14)
 
 * Fix: Import der Newsletter-Empfänger führte zu Duplicate entry (Problem Groß- und Kleinschreibung)
