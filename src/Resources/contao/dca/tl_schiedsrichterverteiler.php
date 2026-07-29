@@ -73,7 +73,7 @@ $GLOBALS['TL_DCA']['tl_schiedsrichterverteiler'] = array
 				'label'               => &$GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['delete'],
 				'href'                => 'act=delete',
 				'icon'                => 'delete.gif',
-				'attributes'          => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\'))return false;Backend.getScrollOffset()"'
+				'attributes'          => 'onclick="if(!confirm(\'' . ($GLOBALS['TL_LANG']['MSC']['deleteConfirm'] ?? null) . '\'))return false;Backend.getScrollOffset()"'
 			),
 			'toggle' => array
 			(
@@ -167,7 +167,7 @@ $GLOBALS['TL_DCA']['tl_schiedsrichterverteiler'] = array
 			'inputType'               => 'checkboxWizard',
 			'search'                  => true,
 			'exclude'                 => true,
-			'options'                 => $GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['lizenzstatus_optionen'],
+			'options'                 => ($GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['lizenzstatus_optionen'] ?? array()),
 			'eval'                    => array
 			(
 				'multiple'            => true,
@@ -181,7 +181,7 @@ $GLOBALS['TL_DCA']['tl_schiedsrichterverteiler'] = array
 			'inputType'               => 'checkboxWizard',
 			'search'                  => true,
 			'exclude'                 => true,
-			'options'                 => $GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['lizenz_optionen'],
+			'options'                 => ($GLOBALS['TL_LANG']['tl_schiedsrichterverteiler']['lizenz_optionen'] ?? array()),
 			'eval'                    => array
 			(
 				'multiple'            => true,

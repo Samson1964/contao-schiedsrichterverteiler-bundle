@@ -1,5 +1,9 @@
 # Schiedsrichter-Verteiler Changelog
 
+## Version 1.1.1 (2026-07-29)
+
+* Fix: Warning: Undefined array key "deleteConfirm", "lizenz_optionen", "lizenzstatus_optionen" bei contao:migrate -> Lesezugriffe auf $GLOBALS['TL_LANG'] in den DCA-Dateien mit `?? null` bzw. `?? array()` abgesichert, da der DcaLoader die Sprachdateien noch nicht geladen hat
+
 ## Version 1.1.0 (2024-04-18)
 
 * Add: codefog/contao-haste
