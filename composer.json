@@ -1,7 +1,14 @@
 {
     "name": "schachbulle/contao-schiedsrichterverteiler-bundle",
     "type": "contao-bundle",
-    "description": "Schiedsrichter-Verteiler für Contao 4",
+    "description": "Verteilt Schiedsrichter auf Turniere und Spieltermine.",
+    "keywords": [
+        "contao",
+        "schach",
+        "schiedsrichter",
+        "einsatzplan"
+    ],
+    "homepage": "https://github.com/Samson1964/contao-schiedsrichterverteiler-bundle",
     "license": "LGPL-3.0-or-later",
     "authors": [
         {
